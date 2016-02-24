@@ -14,13 +14,10 @@ attr_accessor :direction, :xpos, :ypos, :speed, :length, :segments, :ticker
 		@segments.push(@head_segment)
 		@speed = 2
 		@length = segments.length
-
-		# Counts down to lengthen the snake each tick when it has eaten an apple
 		@ticker = 0
   end
 
 	def draw
-		# Draw the segments
 		@segments.each do |s|
 			s.draw
 		end
@@ -73,7 +70,6 @@ attr_accessor :direction, :xpos, :ypos, :speed, :length, :segments, :ticker
 	def hit_self?
 		segments = Array.new(@segments)
 		if segments.length > 21
-			# Remove the head segment from consideration
 			segments.pop((10 * @speed))
 			segments.each do |s|
 				if Gosu::distance(@head_segment.xpos, @head_segment.ypos, s.xpos, s.ypos) < 11
@@ -122,7 +118,6 @@ attr_reader :xpos, :ypos
 	def initialize(window)
 		@window = window
 		@xpos = rand(10..630)
-		# Must be 50 to make sure it doesn't overlap the score
 		@ypos = rand(50..470)
 	end
 
@@ -146,7 +141,6 @@ class GameWindow < Gosu::Window
 
 	def update
 
-		# Change directions, but don't allow doubling back
 		if button_down? Gosu::KbLeft and @snake.direction != "right"
 			@snake.direction = "left"
 		end
@@ -169,7 +163,6 @@ class GameWindow < Gosu::Window
 			@score += 10
 			@snake.length += 10
 			
-			# 11 because we subtract one at the end of the method anyway
 			@snake.ticker += 11
 			if @score % 100 == 0
 				@snake.speed += 0.5
